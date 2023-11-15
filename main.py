@@ -26,6 +26,17 @@ R="red"
 B="blue"
 b = "black"
 
+zeroth = [
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b]
+]
+
 first = [
         [b,b,b,b,b,b,b,b],
         [b,b,b,b,b,b,b,b],
@@ -57,20 +68,22 @@ third = [
         [b,b,b,b,b,b,b,b]
         ]
 
-        
+
+zeroth_gen = led_gen(zeroth)     
 first_gen = led_gen(first)
 second_gen = led_gen(second)
 third_gen = led_gen(third)
 
+win_zeroth = sg.Column(zeroth_gen, visible = True,  key = 'Zeroth')
 win_first = sg.Column(first_gen, visible = True,  key = 'First')
 win_second = sg.Column(second_gen, visible = False,  key = 'Second')
 win_third = sg.Column(third_gen, visible = False,  key = 'Third' )
 
 #These are the keys of each column
-possible_wins = ['First', 'Second', 'Third'] 
+possible_wins = ['Zeroth', 'First', 'Second', 'Third'] 
 layout = [
-          [win_first,win_second,win_third],
-          [sg.Button("1st", size = (4,1)),sg.Button("2nd", size =(4,1)),sg.Button("3rd", size =(5,1))]]
+          [win_zeroth, win_first,win_second,win_third],
+          [sg.Button("0th", size = (5,1)),sg.Button("1st", size = (5,1)),sg.Button("2nd", size =(5,1)),sg.Button("3rd", size =(5,1))]]
 
 #STEP 2 - create the window
 window = sg.Window("Ressy Bug", layout , element_justification = 'center' )
@@ -81,6 +94,8 @@ while True:
     print(event, values) 
     if event == sg.WIN_CLOSED:     
       break
+    elif event == "0th":
+        switch('Zeroth')
     elif event == "1st":
         switch('First')
     elif event == "2nd":
