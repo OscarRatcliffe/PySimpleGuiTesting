@@ -62,9 +62,9 @@ first_gen = led_gen(first)
 second_gen = led_gen(second)
 third_gen = led_gen(third)
 
-win_first = sg.Column(first_gen, visible = False,  key = 'First')
+win_first = sg.Column(first_gen, visible = True,  key = 'First')
 win_second = sg.Column(second_gen, visible = False,  key = 'Second')
-win_third = sg.Column(third_gen, visible = True,  key = 'Third' )
+win_third = sg.Column(third_gen, visible = False,  key = 'Third' )
 
 #These are the keys of each column
 possible_wins = ['First', 'Second', 'Third'] 
@@ -81,11 +81,11 @@ while True:
     print(event, values) 
     if event == sg.WIN_CLOSED:     
       break
-    elif event == "First":
+    elif event == "1st":
         switch('First')
-    elif event == "Second":
+    elif event == "2nd":
         switch('Second')
-    elif event == "Third":
+    elif event == "3rd":
         switch('Third')
 
            
