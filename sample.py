@@ -3,19 +3,6 @@ import datetime
 
 sg.theme('Dark Amber')  # Let's set our own color theme
 
-#Sets a start time
-def getstart():
-    start = datetime.datetime.now()
-    start = start.timestamp()
-    return start
-
-#Updates age using start time
-def update(start):
-    age = datetime.datetime.now()
-    age = age.timestamp()
-    age = age-start
-    return int(age)
-
 #Generates a tiled image from the textual list
 def led_gen(image):
     layout = []
@@ -34,62 +21,56 @@ def switch(activate):
             window[key].update(visible = True)
         else:
             window[key].update(visible = False)
-#Notice the window element is in the main code and therefore has global scope
-#Because it is a list (mutable) it can be updated from within the function.
-#Of course you need to call the function after defining the window.
-        
-health = 0
-start = getstart()
-age = 0
+
 R="red"
 B="blue"
 b = "black"
 
-ill = [
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,B,B,R,R,R],
-        [R,R,R,B,B,R,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R]
+first = [
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,R,R,b,b,b],
+        [b,b,b,R,R,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b]
         ]
-dead = [
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,b,b,R,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R]
+second = [
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,R,R,R,R,b,b],
+        [b,b,R,R,R,R,b,b],
+        [b,b,R,R,R,R,b,b],
+        [b,b,R,R,R,R,b,b],
+        [b,b,b,b,b,b,b,b],
+        [b,b,b,b,b,b,b,b]
         ]
-well = [
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,B,R,R,B,R,R],
-        [R,R,R,B,B,R,R,R],
-        [R,R,R,B,B,R,R,R],
-        [R,R,B,R,R,B,R,R],
-        [R,R,R,R,R,R,R,R],
-        [R,R,R,R,R,R,R,R]
+third = [
+        [b,b,b,b,b,b,b,b],
+        [b,R,R,R,R,R,R,b],
+        [b,R,R,R,R,R,R,b],
+        [b,R,R,R,R,R,R,b],
+        [b,R,R,R,R,R,R,b],
+        [b,R,R,R,R,R,R,b],
+        [b,R,R,R,R,R,R,b],
+        [b,b,b,b,b,b,b,b]
         ]
 
         
-ill = led_gen(ill)
-well = led_gen(well)
-dead = led_gen(dead)
+first_gen = led_gen(first)
+second_gen = led_gen(second)
+third_gen = led_gen(third)
 
-win_ill = sg.Column(ill, visible = False,  key = 'ILL')
-win_well = sg.Column(well, visible = False,  key = 'WELL')
-win_dead = sg.Column(dead, visible = True,  key = 'DEAD' )
+win_first = sg.Column(first_gen, visible = False,  key = 'First')
+win_second = sg.Column(second_gen, visible = False,  key = 'Second')
+win_third = sg.Column(third_gen, visible = True,  key = 'Third' )
 
 #These are the keys of each column
-possible_wins = ['ILL', 'WELL', 'DEAD'] 
-layout = [[sg.Text("Health: " +str(health),size=(10,1), key = 'HLT'), sg.Text("Age: "+str(age),size = (10,1), key = 'AGE')],
-          [win_ill,win_well,win_dead],
-          [sg.Button("Well", size = (4,1)),sg.Button("Ill", size =(4,1)),sg.Button("Dead", size =(4,1))]]
+possible_wins = ['First', 'Second', 'Third'] 
+layout = [
+          [win_first,win_second,win_third],
+          [sg.Button("1st", size = (4,1)),sg.Button("2nd", size =(4,1)),sg.Button("3rd", size =(5,1))]]
 
 #STEP 2 - create the window
 window = sg.Window("Ressy Bug", layout , element_justification = 'center' )
@@ -100,19 +81,13 @@ while True:
     print(event, values) 
     if event == sg.WIN_CLOSED:     
       break
-    elif event == "Well":
-        switch('WELL')
-        health = 90
-    elif event == "Ill":
-        switch('ILL')
-        health = 20
-    elif event == "Dead":
-        switch('DEAD')
-        health = 0
-        
-    age = update(start)
-    window['AGE'].update("Age: " +str(age))
-    window['HLT'].update("Health: " +str(health))
-       
+    elif event == "First":
+        switch('First')
+    elif event == "Second":
+        switch('Second')
+    elif event == "Third":
+        switch('Third')
+
+           
     
 window.close()
